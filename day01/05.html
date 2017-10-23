@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+    <script>
+        window.onload = ()=>{
+
+            new Vue({
+                el:"#app",
+                data:{
+                    flag:false,
+                    num : 1
+                },
+                methods:{
+                    show:function(){
+                        this.msg = "aaaa";
+                    }
+                }
+            });
+        }
+        
+    </script>
+    <title>指令</title>
+</head>
+<body>
+    <div id="app">
+        <div v-if="flag">这是一个DIV vif</div>
+        <div v-show="flag">这是一个DIV vshow</div>
+
+        <div v-if="num==1">div1</div>
+        <div v-else-if="num>1">div2</div>
+        <div v-else>div3</div>
+        <input type="text" v-model="num">
+
+        <hr>
+        <input type="button" value="点我" v-on:click="">
+    </div>
+</body>
+</html>

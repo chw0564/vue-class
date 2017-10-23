@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>v-on 的键盘事件</title>
+    <script>
+        window.onload = function(){
+
+            /*
+                .once - 只触发一次回调。
+
+                .{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调。
+                .left - (2.2.0) 只当点击鼠标左键时触发。
+                .right - (2.2.0) 只当点击鼠标右键时触发。
+                .up
+                .down
+                .enter
+                .middle - (2.2.0) 只当点击鼠标中键时触发。
+                
+            
+            */
+            Vue.config.keyCodes = {
+                // key 别名
+                // value  按键码
+                a:65,
+                f2:113
+            };
+
+            new Vue({
+                el:"#app",
+                methods:{
+                    // print:function(){
+
+                    // }
+                    print(e){
+                        console.log(e);
+                    },
+                    checkedKey(e){
+                        if(e.keyCode==65){
+                            console.log("这是A键");
+                        }
+                    },
+                    print2(){
+                        console.log("print2方法")
+                    },
+                    print3(e){
+                        if(e.ctrlKey){
+                            console.log("ctrl键被按下");
+                        }
+                        // console.log(e);
+                    }
+                }
+            });
+        }
+
+        function show(e){
+            
+            console.log(e);
+        }
+    </script>
+</head>
+<body>
+    <input type="text" onkeyup="show(event)">
+    <hr>
+    <div id="app">
+        <!-- 如果需要传入对象，需要使用 Vue 可以识别的事件对象 -->
+        <!-- <input type="text" v-on:keyup="print(event)"> -->
+        <input type="text" v-on:keyup="print($event)">
+        <!-- <input type="text" v-on:keyup="print()"> -->
+        <hr>
+        <h3>需要去判断输入的是不是 A </h3>
+        <input type="text" v-on:keyup="checkedKey($event)">
+        <!-- 
+            可以定义对应的键盘值，用于判断什么时候触发事件 
+            Vue 1.x  
+                对所有的键盘按键都定义了别名  65=>a ……
+            Vue 2.x
+                Vue只应该关系 页面数据展示，不应该关系用户行为
+                删除了所有的别名
+                提供一个 全局的配置选项，让用户可以自定义按键别名
+                Vue.config.keyCodes = {};
+        -->
+        <input type="text" v-on:keyup.65="print2()">
+        <input type="text" v-on:keyup.a="print2()">
+        <input type="text" v-on:keyup.f2="print2()">
+        <input type="text" v-on:keyup.f2.a="print2()">
+        <hr>
+        <!-- ctrl + a -->
+        <input type="text" v-on:keyup.a="print3($event)">
+    </div>
+</body>
+</html>

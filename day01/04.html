@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+    <script>
+        window.onload = ()=>{
+
+            new Vue({
+                el:"#app",
+                data:{
+                    msg:"文本消息",
+                    html:"<h4>标签文本</h4>",
+                    str:"aaa"
+                },
+                methods:{
+                    show:function(){
+                        this.msg = "aaaa";
+                    }
+                },
+                created:function(){
+                    // alert(1);
+                }
+            });
+        }
+    </script>
+    <title>指令</title>
+</head>
+<body>
+    <div id="app">
+        <h4>{{msg}}</h4>
+        <h4 v-text="msg"></h4>
+        <hr>
+        <div>{{html}}</div>
+        <div v-html="html"></div>
+        <hr>
+        <input type="text" v-model="str">
+        <input type="text" v-model="str">
+        <h4>{{str}}</h4>
+        <hr>
+        <input type="button" value="按钮" v-on:click="show()">
+        <hr>
+        <h4 v-pre>{{msg}}:是Vue的插值表达式</h4>
+        <hr>
+        <h4 v-cloak>{{msg}}</h4>
+        <hr>
+        <h4 v-once >{{str}}</h4>
+    </div>
+</body>
+</html>

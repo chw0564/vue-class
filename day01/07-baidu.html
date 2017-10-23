@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <script src="../js/jquery.js"></script>
+    <title>Document</title>
+    <script>
+        $(function(){
+            new Vue({
+                el:"#app",
+                data:{
+                    wd:"",
+                    arr:[]
+                },
+                methods:{
+                    getData(){
+                        // 发送请求
+                        $.ajax({
+                            url:"https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",
+                            data:{
+                                "wd":this.wd
+                            },
+                            type:"get",
+                            dataType:"jsonp",
+                            jsonp:"cb",
+                            success:(data)=>{
+                                console.log(data);
+                                this.arr = data.s;
+                            }
+                        })
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="wd" v-on:keyup="getData()">
+        <ul>
+            <li v-for="item in arr">{{item}}</li>
+        </ul>
+    </div>
+</body>
+</html>

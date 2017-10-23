@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <!-- 
+        阻止了 浏览对vue 的调试
+        vue  的调试信息显示
+     -->
+    <!-- <script src="../js/vue.min.js"></script> -->
+    <title>Vue hello world</title>
+</head>
+<body>
+    <!--
+        1、在页面中提供一个容器 ，用于为当前框架展示数据
+        2、通过js 代码实现 vue 初始化 ，完成容器和vue之间的关联
+    -->
+    <div id="app">
+        <!-- 插值表达式 -->
+        {{hello}}
+    </div>
+
+    <script>
+        // 全局配置项的配置
+        Vue.config.devtools = false;
+        Vue.config.productionTip = false;
+        Vue.config.silent = true;    
+
+        // 实例化 new（初始化） vue 对象
+        // new Vue(opt:Object);
+        new Vue({
+            // 通过css的基础选择器语法 完成 元素和Vue对象的关联
+            el:"#app",
+            // 用于存储和页面间的通信数据
+            data:{
+                hello:"hello Vue 2333"
+            }
+        });
+    </script>
+</body>
+</html>

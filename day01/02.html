@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>实例挂载</title>
+    <script src="../js/vue.js"></script>
+    <script>
+        window.onload = function(){
+            // 返回值  new Vue创建的对象
+            var vm = new Vue({
+                data:{
+                    msg:"挂载显示消息"
+                }
+            });
+
+            // vm ==> viewMode  ==>  对于mvvm框架创建的对象，一般使用vm进行表示
+            // 挂载 元素对象  （容器）
+            vm.$mount("#app");
+
+            new Vue({
+                data:{
+                    name:"itany"
+                },
+                template:"<h1>这是模版</h1>"
+            }).$mount("#itany")
+
+        };
+    
+    </script>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+    </div>
+    <div id="itany">
+        {{name}}
+    </div>
+</body>
+</html>
