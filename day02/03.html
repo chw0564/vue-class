@@ -4,14 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .div1{
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+        .div2{
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+        .div3{
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+    
+    </style>
+    <script src="../js/vue.js"></script>
     <title>Document</title>
     <!-- 
+        1、阻止默认行为
+        2、阻止冒泡
+
         .stop - 调用 event.stopPropagation()。
-        .prevent - 调用 event.preventDefault()。
+        .prevent - 调用 event.preventDefault()。  阻止默认事件
         .self - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
     -->
+    <script>
+        window.onload = function(){
+            new Vue({
+                el:"#app",
+                methods:{
+                    fun1(){
+                        console.log("被点了");
+                    },
+                    fun2(){
+                        console.log("fun2");
+                    },
+                    fun3(){
+                        console.log("fun3");
+                    },
+                    fun4(){
+                        console.log("fun4");
+                    },
+                    fun5(){
+                        console.log("fun5");
+                    }
+                }
+            });
+        }
+    
+    </script>
 </head>
 <body>
-    
+    <!-- a 标签的 点击事件 默认行为 就是 跳转页面 -->
+    <a href="http://www.baidu.com">百度</a>
+    <div id="app">
+        <a href="http://www.baidu.com" v-on:click.prevent >百度</a>
+        <a href="http://www.baidu.com" v-on:click.prevent="fun1()" >百度</a>
+        <hr>
+        <!-- 事件冒泡 -->
+        <div class="div1" v-on:click.self="fun5()">
+            <div class="div2" v-on:click="fun4()">
+                <div class="div3" v-on:click="fun3()">
+                    <span v-on:click.stop="fun2()">测试</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

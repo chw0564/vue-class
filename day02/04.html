@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>v-model 修饰</title>
+    <script>
+        window.onload = function(){
+            new Vue({
+                el:"#app",
+                data:{
+                    msg:"测试消息"
+                },
+                methods:{
+                    fun(){
+                        console.log(1);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <!-- 懒加载  延迟加载  ==> onchange -->
+        <input type="text" v-model.lazy="msg">
+        <input type="button" value="点击" @click="fun()">
+    </div>
+</body>
+</html>

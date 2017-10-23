@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>v-bind 的使用</title>
+    <script>
+        window.onload = function(){
+            new Vue({
+                el:"#app",
+                data:{
+                    w:"100px",
+                    h:"100px",
+                    imgurl:"../img/生命周期.png",
+                    statu:true
+                },
+                methods:{
+                    change(){
+                        this.w = "200px";
+                        this.h = "200px";
+                        this.imgurl = "http://www.baidu.com/img/bd_logo1.png";
+                    }
+                }
+            });
+        }
+    
+    </script>
+</head>
+<body>
+    <div id="app">
+        <h1>普通属性的绑定</h1>
+        <!-- 
+            指令后面的  “”  中指定是 vue 实例中 data 中的变量名
+         -->
+        <button type="button" @click="change()">改变大小</button>
+        <img v-bind:src="imgurl" v-bind:width="w" v-bind:height="h">
+        <hr>
+        <!--
+            Vue 中对于互斥属性 一般可以直接使用  boolean 进行状态的选择
+            Vue 对于 复选单选，下拉列表，存在一种特殊的 选中方式？
+            ……
+        -->
+        <input type="checkbox" :checked="statu">
+        <hr>
+        <!-- class的绑定 -->
+
+
+
+
+        <!-- 对于 style 的绑定 -->
+        
+    </div>
+</body>
+</html>
