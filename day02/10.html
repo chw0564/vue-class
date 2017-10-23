@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>自定义过滤器</title>
+    <script>
+        window.onload = function(){
+            // 定义全局过滤器
+            //   过滤器的名字
+            //   过滤器被调用时需要处理的函数
+            //   必须有返回值  ==> 取决过滤器的用法
+            // Vue.filter(id,callback)
+            Vue.filter("test",function(data){
+                // console.log(data);
+                return data>10;
+            });
+
+            Vue.filter("data-format",function(data){
+                // console.log(typeof data);
+                // console.log(data);
+                // // new Date(data);
+                // console.log(data.getDate());
+                // data.getDay()
+                return data.getFullYear()+"-"+(data.getMonth()+1)+"-"+data.getDate();
+            });
+
+            Vue.filter("addZero",function(data){
+                if(data<10){
+                    return "0"+data;
+                }
+                return data;
+            });
+
+            // 过滤器回调函数中 第一位的 参数，永远都是过滤器前面的参数
+            //  额外参数 从回调第二位开始 安装传入的顺序 向后延展
+            Vue.filter("getMax",function(data,s,arg1,arg2){
+                // console.log(data,s,arg1,arg2);
+                return data>s?data:s;
+            });
+
+            new Vue({
+                el:"#app",
+                data:{
+                    num:1,
+                    now:new Date(),
+                    a:10,
+                    b:22
+                }
+            });
+        }
+    
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <span>{{num}}:</span>
+            <!-- <span>是否大于10（{{num>10}}）</span> -->
+            <!-- <span>是否大于10（ {{num | 过滤名称}} ）</span> -->
+            <span>是否大于10（ {{num | test}} ）</span>
+        </div>
+        <div>
+            <span>当前时间</span>
+            <!-- <span>{{now}}</span> -->
+            <span>{{now | data-format}}</span>
+        </div>
+        <div>
+            <span>个位数补零</span>
+            <p v-for="i in 20">{{i | addZero}}</p>
+        </div>
+        <div>
+            <p>{{a>b?a:b}}</p>
+            <p>{{a | getMax(b,'s','d')}}</p>
+        </div>
+    </div>
+</body>
+</html>

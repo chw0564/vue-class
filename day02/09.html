@@ -22,9 +22,10 @@
             Vue.directive("drag",function(el){
                 // 鼠标的坐标在哪？
                 el.onmousedown = function(e){
-                    console.log(e);
-                    let disX = e.clientX-e.offsetX;
-                    let disY = e.clientY-e.offsetY;
+                    console.log(el.offsetLeft,el.offsetTop);
+                    console.log(e.clientX,e.clientY);
+                    let disX = e.clientX-el.offsetLeft;
+                    let disY = e.clientY-el.offsetTop;
                     // console.log(divX,divY);
                     el.onmousemove = function(e){
                         // console.log(el.style.top)
