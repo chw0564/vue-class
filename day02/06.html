@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .aa{
+            width: 100px;
+            height: 100px;
+            background-color: rebeccapurple;
+        }
+        .bb{
+            color: white;
+        }
+        .cc{
+            color: blue;
+        }
+        .fs{
+            font-size: 20px;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+    <title>v-bind 的使用</title>
+    <script>
+        window.onload = function(){
+            new Vue({
+                el:"#app",
+                data:{
+                  val1:"打开",
+                  val2:"关闭",
+                },
+                methods:{
+                    change1(){
+                        this.val1 = "关闭";
+                        this.val2 = "打开";
+                    },
+                    change2(){
+                        this.val2 = "关闭";
+                        this.val1 = "打开";
+                    }
+                }
+            });
+        }
+    
+    </script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" :value="val1" @mouseover="change1()">
+        <input type="button" :value="val2" @mouseover="change2()">
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>自定义指令</title>
+    <script>
+        window.onload = function(){
+            // 自定义全局指令
+            // 向Vue中注入了一个新的指令 函数
+            // Vue.directive(name,opt)
+            //  name :  自定义的指令名 ==> v-  后面所接的描述名称
+            //  opt :   指令的生命周期函数 vue 定义好的一组函数 
+            //                bind->inserted->update->componetUpdate->unbind
+            //  function  :  bind   update
+            Vue.directive("hello",function(){
+                console.log("这是自定义全局指令");
+            });
+            Vue.directive("color",function(el){
+                console.log(el);  // DOM元素对象
+                el.style.color = 'red';
+            });
+
+            new Vue({
+                el:"#app",
+                data:{
+                    msg:"自定义指令"
+                },
+                directives:{
+                    aa:function(el,opt){
+                        console.log(el);
+                        // 指令传参数
+                        console.log(opt.arg);
+                    },
+                    bb:function(el,opt){
+                        // 使用boolean 表示 该修饰符是否使用
+                        console.log(opt.modifiers);
+                    },
+                    cc:function(el,opt){
+                        // 使用boolean 表示 该修饰符是否使用
+                        console.log(opt.value);
+                    },
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+       <h1 v-hello>{{msg}}</h1>
+       <input type="text" v-model="msg">
+        <hr>
+        <input type="text" v-color >
+        <input type="text" v-aa:abc >
+        <input type="text" v-bb.a.b >
+        <input type="text" v-cc="'朱博文'">
+    </div>
+</body>
+</html>

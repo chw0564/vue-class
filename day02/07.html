@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>自定义指令</title>
+    <script>
+        window.onload = function(){
+            // 自定义全局指令
+            // 向Vue中注入了一个新的指令 函数
+            // Vue.directive(name,opt)
+            //  name :  自定义的指令名 ==> v-  后面所接的描述名称
+            //  opt :   指令的生命周期函数 vue 定义好的一组函数 
+            //                bind->inserted->update->componetUpdate->unbind
+            Vue.directive("hello",{
+                bind(){
+                    // alert("指令第一绑定到元素上，只调用一次，做初始化操作");
+                },
+                inserted(){
+                    // alert("被绑定的元素插入到DOM中使用");
+                },
+                update(){
+                    // alert("被绑定的元素在模板中更新调用");
+                },
+                // 自定义组件是 演示
+                componentUpdate(){
+                    alert("被绑定的元素在模板完成一次更新时调用");
+                },
+                unbind(){
+                    alert("元素和指令之间解除绑定时调用");
+                }
+            });
+
+            new Vue({
+                el:"#app",
+                data:{
+                    msg:"自定义指令"
+                },
+                directives:{
+                    "world":{
+                        bind(){
+                            console.log("局部指令定义");
+                        }
+                    }
+                }
+            });
+            new Vue({
+                el:"#itany",
+                data:{
+                    msg:"自定义指令"
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <h1 v-hello>{{msg}}</h1>
+        <!-- <input type="text" v-model="msg"> -->
+        <h1 v-world>{{msg}}</h1>
+    </div>
+    <div id="itany">
+        <h1 v-hello>{{msg}}</h1>
+        <h1 v-world>{{msg}}</h1>
+    </div>
+</body>
+</html>
