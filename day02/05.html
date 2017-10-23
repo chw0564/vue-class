@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .aa{
+            width: 100px;
+            height: 100px;
+            background-color: rebeccapurple;
+        }
+        .bb{
+            color: white;
+        }
+        .cc{
+            color: blue;
+        }
+        .fs{
+            font-size: 20px;
+        }
+    </style>
     <script src="../js/vue.js"></script>
     <title>v-bind 的使用</title>
     <script>
@@ -14,13 +30,27 @@
                     w:"100px",
                     h:"100px",
                     imgurl:"../img/生命周期.png",
-                    statu:true
+                    statu:true,
+                    // aa:"aa bb",
+                    divStyle:"aa",
+                    colorStyle:"bb",
+                    flag:true,
+                    clazz:{aa:true,bb:true,cc:false},
+                    style1:{color:'red'},
+                    style2:{fontSize:'30px'}
                 },
                 methods:{
                     change(){
                         this.w = "200px";
                         this.h = "200px";
                         this.imgurl = "http://www.baidu.com/img/bd_logo1.png";
+                    },
+                    changeColor(){
+                        // this.colorStyle = "cc";
+                        this.colorStyle = this.colorStyle == "bb"? "cc":"bb";
+                    },
+                    changeFlag(){
+                        this.flag = !this.flag;
                     }
                 }
             });
@@ -45,12 +75,53 @@
         <input type="checkbox" :checked="statu">
         <hr>
         <!-- class的绑定 -->
-
-
-
-
-        <!-- 对于 style 的绑定 -->
+        <!-- <div class="aa bb"></div> -->
+        <!-- 1、变量的定义方式 -->
+        <!-- <div :class="aa"> -->
         
+        <!-- 2、数组的定义方式 -->
+        <div :class="[divStyle,colorStyle]">
+            div1
+        </div>
+        <input type="button" value="变变变" @click="changeColor()">
+
+        <!-- 
+            3、JSON 定义方式     (常用)
+                key 使用 样式名
+                value  boolean
+            可以处理互斥样式
+                success error
+        -->
+        <div :class="{aa:true,bb:false,cc:true}">
+            div2
+        </div>
+        <div class="fs" :class="{aa:true,bb:flag,cc:!flag}" @click="changeFlag()">
+            div3
+        </div>
+        <!-- 
+            4、变量json 的方式进行定义
+         -->
+         <div :class="clazz">
+             div4
+         </div>
+        <!-- 对于 style 的绑定 -->
+        <div style="color:red; font-size:30px" >div5</div>
+        <!--
+            key 样式名称   ==> 遵循 原生 JS 的Style操作方式   xxx-yyy-zzz ==> xxxYyyZzz
+            value 是样式的值
+        -->
+        <div :style="{color:'red',fontSize:'30px'}">
+            div6
+        </div>
+        <!-- 
+            可以取数组对象
+         -->
+         <div :style="[{color:'red'},{fontSize:'30px'}]">
+             div7
+         </div>
+         <div :style="[style1,style2]">
+            div8
+        </div>
     </div>
 </body>
 </html>
