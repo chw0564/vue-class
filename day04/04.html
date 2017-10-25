@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>动态组件</title>
+</head>
+<body>
+    <div id="app">
+        <hello>
+            <!-- <div>
+                <h1>2017年10月25号</h1>
+                <h2>===============</h2>
+            </div>
+            <div>
+                <h2>===============</h2>
+                <h1>tom</h1>
+            </div> -->
+            <div slot="s2">
+                <h1>2017年10月25号</h1>
+                <h2>===============</h2>
+            </div>
+            <div slot="s1">
+                <h2>===============</h2>
+                <h1>tom</h1>
+            </div>
+        </hello>
+    </div>
+
+    <!-- 
+        Vue 1.x template 没有特别要求
+        Vue 2.x template 有且仅有一个根元素
+     -->
+    <template id="hello">
+        <div>
+            <!-- 占位符 -->
+           <!-- <slot></slot>
+           <h1>hello</h1>
+           <slot></slot> -->
+           <slot name="s1"></slot>
+           <h1>hello</h1>
+           <slot name="s2"></slot>
+        </div>
+    </template>
+    <script>
+        Vue.component("hello",{
+            template:"#hello"
+        });
+
+
+        new Vue({
+            el:"#app"
+        });
+    
+    </script>
+</body>
+</html>

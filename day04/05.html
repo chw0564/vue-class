@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>父组件向子组件传递参数</title>
+</head>
+<body>
+    <div id="app">
+        <h1>父组件取值</h1>
+        <p>msg:{{msg}}</p>
+        <p>user:{{user}}</p>
+        <hr>
+        <!-- 
+            父组件向子组件的传值方式
+            1、依赖于指令 v-bind:自定义属性名   ==> 用在子组件标签上
+            2、组件中的属性  props  ==>  定义在子组件实例中
+
+            vue 的官方不建议使用
+                ==>  vue 2.x 概念 ： 单向数据操作
+                ==>     父组件和子组件之间完成数据独立
+                ==>     子组件数据操作 不应该影响父组件的原始数据
+                ==>     因为子组件存在部分数据是由父组件提供，这些数据应该由父组件维护
+            在标签上是不能绑定对象的
+            
+            实际开发过程中经常使用
+
+            1、vue 是将绑定对象的地址 传递给了 子组件
+            2、通过地址 获取对应的参数
+            ？ 子组件从父组件获取的对象 和父组件 中定义的对象是否是同一个
+        -->
+        <itany v-bind:info="msg" :user="user"></itany>
+    </div>
+
+    <template id="itany">
+        <div>
+            <h1>子组件取值</h1>
+            <p>msg:{{info}}</p>
+            <input type="text" v-model="info">
+            <p>user:{{user}}</p>
+            <input type="text" v-model="user.name">
+            
+        </div>
+    </template>
+
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"父组件定义的数据",
+                user:{
+                    name:"tom",
+                    age:23
+                }
+            },
+            components:{
+                itany:{
+                    template:"#itany",
+                    data:function(){
+                        return {
+                            
+                        }
+                    },
+                    computed:{
+                        
+                    },
+                    // 用于 从父组件中 获取传递的参数
+                    props:{
+                        info:"",
+                        user:{}
+                    }
+                },
+            }
+        });
+    </script>
+</body>
+</html>

@@ -25,7 +25,18 @@
             默认组件不缓存,一旦切换原组件直接销毁，每次显示时都会重新创建组件
             在Vue中如何让动态组件不被销毁
          -->
-        <component :is="page"></component>
+        <!-- <component :is="page"></component> -->
+        <!-- 
+            第一调用该组件时，会创建，一旦创建完成，该组件不会被销毁，存放在内存中
+            后续调用直接从内存中读取
+            <keep-alive>   ==> 保持存活
+                 <component :is="page"></component>
+            </keep-alive>
+        -->
+        <keep-alive>
+            <component :is="page"></component>
+        </keep-alive>
+        
     </div>
 
     <!-- 
