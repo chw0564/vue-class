@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>组件定义</title>
+</head>
+<body>
+    <!-- 组件  Root -->
+    <div id="app">
+        <!-- vue 组件 -->
+        <my-hello></my-hello>
+        <my-world></my-world>
+    </div>
+    <script>
+        // 方式1：直接创建组件（常用的方式）
+
+        //   Vue.js  ==>  组件组装器 
+        // 全局组件定义
+        // Vue.component(name,组件对象)
+        //    name 组件的名称
+        //    组件对象  ==>  vue 定义的一个特殊的类型
+        //              {}  ==> 存在一些预定的KEY ， 用于生产组件时需要的参数或数据
+        Vue.component("my-hello",{
+            // 参数就是  vue 实例的定义参数
+            template:"<h2>hello组件</h2>"
+        });
+
+
+        new Vue({
+            el:"#app",
+            // template:"<h1></h1>", //用于定义当前 vue 实例的  页面元素表现形式
+            // 局部组件的定义
+            components:{
+                // 'my-world':{
+                MyWorld:{
+                    template:"<h2>world组件</h2>"
+                }
+            }
+        });
+    </script>
+</body>
+</html>

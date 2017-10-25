@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>四舍五入</title>
+    <!-- 
+        给定数值,指定小数位，做四舍五入
+        isNaN()   不是数值返回  true   是数值 返回 false 无法判断空字符
+
+        功能
+            保留小数位  n
+            < n    12.2 ==> 12.20
+            = n    12.23  ==>  12.23
+            >  ==> 2
+                n位大于等于5    12.246  ==>  12.25
+                n位小于5       12.243  ==>   12.24
+    -->
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="num">
+        <span>{{ num | number(0) }}</span>
+    </div>
+    <script>
+        // 12.23544567
+        //  let- (2+1)
+        //  n 默认是 >= 0
+        Vue.filter("number",function(data,n){
+            // 做数据保护，防止可能 data为number数值类型
+            let dataStr = data+"";
+            // 获取原始值得长度
+            let dataLen = dataStr.length;
+            // 获取 . 的下标
+            let dotPos = dataStr.indexOf(".");
+
+            // 定义返回变量
+            let resultStr;
+
+            // 判断传入的数值是否包含 .
+            if(dotPos==-1){
+                // 判断需要保留的小数位 是否为 0 
+                //          如果是 返回原始值作为结果
+                //          如果不是 在原始值后拼接 .
+                resultStr = n==0? dataStr:dataStr + ".";
+                // 根据指定的小数位进行 0 的补充
+                for (let i = 0; i < n; i++) {
+                   resultStr = resultStr + "0"
+                }
+                return resultStr;
+            }
+            // 12.22   2    12.2  2  12.20 
+            // 判断 . 后的小数位是否小于等于 需要保留的位数
+            //      dotPos+1  为整数位+小数 的 长度
+            //      dataLen-dotPos-1   返回剩余小数位的长度
+            if((dataLen-dotPos-1) <= n){
+                // 因为原值位数不够，直接将原值进行赋值，并根据剩余位数进行 补 0
+                resultStr = dataStr;
+                // 传入数值不够的位数
+                //    dataLen-(dotPos+1）  总长度 - （整数位个数 + 小数点占的1位）  
+                //    获取 不足 的 位数  n-(dataLen-dotPos-1)
+                for (let i = 0; i < (n-(dataLen-dotPos-1)); i++) {
+                   resultStr = resultStr + "0"
+                }
+                return resultStr;
+            }
+
+            // > n   12.2365   2   ==>  
+            // 获取 最终需要返回的 数值的长度
+            var resultLen = (dotPos+1)+n;
+            // 获取 
+            var charStr = dataStr.charAt(resultLen);
+            var m = parseInt(charStr);
+            if(m<5){
+                return dataStr.substring(0,resultLen);
+            }else{
+                // var a = (parseInt(dataStr.charAt(resultLen-1))+1)+"";
+                // return dataStr.substring(0,resultLen-1)+a;
+                let temp = "0."
+                for (let i = 0; i < n-1; i++) {
+                    temp = temp + "0";  
+                }
+                temp = temp+"1";
+                resultStr = (parseFloat(dataStr)+parseFloat(temp))+"";
+                return resultStr.substring(0,resultLen);
+            }
+
+        });
+
+
+        new Vue({
+            el:"#app",
+            data:{
+                num:0
+            }
+        });
+    </script>
+</body>
+</html>

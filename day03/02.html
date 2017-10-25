@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>实例属性</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="msg">
+        <span>基本类型：{{msg}}</span>
+        <input type="button" value="设置消息" @click="setMsg()">
+        <input type="button" value="设置新消息" @click="setNewMsg()">
+        <br>
+        <input type="text" v-model="user.name">
+        <span>引用类型：{{user}}</span>
+        <span></span>
+        <input type="button" value="设置用户年龄" @click="setUserAge()">
+
+        <hr>
+        <input type="text" v-model="num">
+    </div>
+
+    <hr>
+    <input type="button" value="设置用户性别" onclick="setUserSex()">    
+    <input type="button" value="设置新消息" onclick="setData()">
+    <script>
+
+        // let arr1 = new Array();
+        // let arr2 = new Array();
+        // let arr3 = arr2;
+        // arr2.push(1);
+        // console.log(arr3);
+        // console.log(arr1===arr2);
+        // console.log(arr2===arr3);
+
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"基本类型的数据",
+                num:10,
+                user:{
+                    name:"tom"
+                }
+            },
+            methods:{
+                setMsg(){
+                    this.msg = "新消息";
+                },
+                setNewMsg(){
+                    // this.newMsg = "这是一条新的消息";
+                    // this.$set(this.$data,"newMsg",1);
+                },
+                setUserAge(){
+                    // 相办法给age 提供 getter  setter 方法
+                    //  属性  set 实例属性 
+                    // vm.$set(target,属性名称,属性值)
+                    // Vue.set()
+                    // this.user.age = 23;
+                    // Vue.set(this.user,"age",23);
+                    // vm.$set(this.user,"age",23);
+                    this.$set(this.user,"age",23);
+                }
+            },
+            // 数据监视器
+            watch:{
+                // 监视的是已经具有 getter 和 setter 方法的属性的变换
+                // key 取值 为 data 中定义的属性名称（一层）
+                // 监视一层
+                msg:function(newValue,oldValue){
+                    console.log(newValue,":",oldValue);
+                },
+                num:function(newValue,oldValue){
+                    if(isNaN(newValue)){
+                        this.num = oldValue;
+                    }
+                },
+                // 实现深度监视
+                user:{
+                    // handler 该监视器被调用的回调函数
+                    // newValue 和 oldValue 取得 是栈中的值
+                    handler:(newValue,oldValue)=>{
+                        console.log(newValue === oldValue);
+                        console.log(newValue,":",oldValue);
+                    },
+                    // deep 设置监视模式   默认 false  
+                    deep:true
+                }
+            }
+        });
+
+
+        function setUserSex(){
+            vm.$set(vm.user,"sex","男");
+        }
+
+        function setData(){
+            // vm.$set(vm)
+            // vm.$set(vm,"newMsg","消息");
+            // 指定的Vue 对象所 定义过的数据
+            console.log(vm.$data);
+
+        }
+    </script>
+</body>
+</html>

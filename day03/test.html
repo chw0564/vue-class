@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./test.css">
+    <script src="../js/vue.js"></script>
+    <title>评分</title>
+</head>
+<body>
+    <div id="app">
+        <div @mouseout="initSource()">
+            <span :class="i<=rate.source?'close-png':'open-png'" 
+                  v-for="i in rate.max" 
+                  @mousemove="selectSource(i)"
+                  @click="setSource(i)"
+            ></span>
+            <span>{{msg}}</span>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                rate:{
+                    max:5,
+                    source:2,
+                    title:[
+                        "极差","较差","一般","较好","非常好"
+                    ]
+                },
+                source:2
+            },
+            methods:{
+                selectSource(source){
+                    // console.log(source);
+                    this.rate.source = source;
+                },
+                initSource(){
+                    // console.log(1);
+                   this.rate.source = this.source;
+                },
+                setSource(source){
+                    // console.log(source);
+                    this.source = source;
+                }
+            },
+            computed:{
+                msg:function(){
+                    return this.rate.title[this.rate.source-1];
+                }
+            }
+        });
+    </script>
+</body>
+</html>

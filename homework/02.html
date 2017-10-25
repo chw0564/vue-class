@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>用户管理系统</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 
+            v-model 绑定当前选中项的值和 选中状态
+         -->
+        <input type="radio" value="a1" name="a" v-model="a">
+        <input type="radio" value="a2" name="a" v-model="a">
+        <input type="radio" value="a3" name="a" v-model="a">
+        <input type="radio" value="a4" name="a" v-model="a">
+        <hr>
+        <input type="checkbox" value="b1" name="b" v-model="b">
+        <input type="checkbox" value="b2" name="b" v-model="b">
+        <input type="checkbox" value="b3" name="b" v-model="b">
+        <input type="checkbox" value="b4" name="b" v-model="b">
+        <hr>
+        <!-- 没有value 是 绑定的是  true 或 false 选中状态 -->
+        <input type="checkbox" name="c" v-model="c">
+        <hr>
+        <!-- 
+            multiple 属性让下拉列表变为多选  （shift + 鼠标左键）
+         -->
+        <select v-model="d">
+            <!-- 
+                option 没有指定value  不论是Vue框架 还是  原生的表单提交 提交的都是正反标签中的文本
+                option 指定了value  提交value 的值             
+             -->
+             
+            <option value="dd1">d1</option>
+            <option value="dd2">d2</option>
+            <option value="dd3">d3</option>
+            <option value="dd4">d4</option>
+            <option value="">请选择</option>
+        </select>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                a:"a1",
+                b:[],
+                c:true,
+                d:""
+            }
+        });
+    </script>
+</body>
+</html>

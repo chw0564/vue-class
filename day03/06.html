@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>组件中的 数据 </title>
+</head>
+<body>
+    <div id="app">
+        <hello></hello>
+    </div>
+
+    <template id="wbs">
+        <div>
+            <ul>
+                <li v-for="item in arr">{{item}}</li>
+            </ul>
+        </div>
+    </template>
+    <script>
+        // 定义全局
+        Vue.component("hello",{
+            template:"#wbs", //可以传入css 选择器
+            // data:{
+            //     arr:["a","b","c"]
+            // }
+            //  js 的 堆栈 存储  ？  
+            data:function(){
+                return {
+                    arr:["a","b","c"]
+                }
+            }
+        });
+
+        new Vue({
+            el:"#app",
+            data:{
+                arr:["a","b","c"]
+            }
+        });
+    </script>
+</body>
+</html>

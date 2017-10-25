@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        table{
+            border-collapse: collapse;
+            width: 50%;
+        }
+        td,th{
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+    <title>用户管理</title>
+</head>
+<body>
+    <div id="app">
+        <h1>添加用户</h1>
+        <label for="name">姓名：</label>
+        <input type="text" id="name" v-model="user.name">
+        <label for="age">年龄：</label>
+        <input type="text" id="age" v-model="user.age">
+        <input type="button" value="添加" @click="addUser()">
+        <hr>
+        <h1>用户列表</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" @click="doSelect()" v-model="flag">
+                    </th>
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 对于循环建议绑定 :key  如果不绑定  控制台上会有告警 -->
+                <tr v-for="(user,k) in users" :key="k">
+                    <td>
+                        <input type="checkbox" name="select-user" :value="k" v-model="selectUser" @change="checkSelect()">
+                    </td>
+                    <td>{{k+1}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.age}}</td>
+                    <td>
+                        <input type="button" value="删除" @click="deleteUser(k)">
+                    </td>
+                </tr>
+                <tr v-if="users.length==0">
+                    <td colspan="5">暂无用户数据</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <input type="button" value="删除全部" @click="deleteUser(-1)">
+                        <input type="button" value="删除选中项" @click="deletSelectUser()">
+                    </td>
+                </tr>
+            </tfoot>
+            
+        </table>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                users:[
+                    {name:"tom",age:"23"},
+                    {name:"jack",age:"21"}
+                ],
+                user:{},
+                // 选中的用户在 数组中的下标
+                selectUser:[],
+                flag:false
+            },
+            methods:{
+                addUser(){
+                    this.users.push(this.user);
+                    // 解决 堆栈存储时  双向数据绑定的内存指向问题
+                    this.user = {};
+                },
+                deleteUser(index){
+                    if(index==-1){
+                        this.users = [];
+                        return;
+                    }
+                    this.users.splice(index,1);
+                },
+                deletSelectUser(){
+                    // 在对数组进行循环删除时，数组中的值所对应的下标 可能会发生变化
+                    // 删除的不止一个用户
+                    // [1,5,3,2]
+                    // sort() 只能排序 1-9 的顺序
+                    let temp = this.selectUser.sort((a,b)=>{
+                        return a-b;
+                    }); //==》[1,2,3,5]
+                    console.log(this.selectUser);
+                    console.log(temp);
+                    for (var i = temp.length-1; i >=0 ; i--) {
+                        this.users.splice(temp[i],1);
+                    }
+                    this.selectUser = [];
+                },
+                doSelect(){
+                    // 全选还是全不选
+                    this.selectUser = [];
+                    if(!this.flag){
+                        for (var i = 0; i < this.users.length; i++) {
+                            this.selectUser.push(i);
+                        }
+                    }
+                },
+                checkSelect(){
+                    // change 事件 将Vue 拆分成两部分
+                    //  1、点击事件   赋值
+                    //  2、内容改变  触发事件
+                    if(this.users.length==this.selectUser.length){
+                        this.flag = true;
+                        return;
+                    }
+                    this.flag = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

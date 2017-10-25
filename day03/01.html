@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>计算属性</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="num">
+        <hr>
+        <h1>{{num}} > 10 : {{ num | number}}</h1>
+        <h1>{{num}} > 10 : {{ num | number}}</h1>
+        <h1>{{num}} > 10 : {{ num | number}}</h1>
+        <h1>{{num}} > 10 : {{ num | number}}</h1>
+        <hr>
+        <h1>{{num}} > 10 : {{ result }}</h1>
+        <h1>{{num}} > 10 : {{ result }}</h1>
+        <h1>{{num}} > 10 : {{ result }}</h1>
+        <h1>{{num}} > 10 : {{ result }}</h1>
+        <hr>
+        <input type="text" v-model="result">
+        <hr>
+        <input type="text" v-model="num2">
+        <input type="text" v-model="addNum">
+        <input type="text" v-model="num3" @change="setNum2()">
+        <h1>{{num2}}:{{addNum}}</h1>
+        
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+    <script>
+        Vue.filter("number",function(data){
+            console.log("过滤器:",Math.random());
+            return data>10
+        });
+
+        new Vue({
+            el:"#app",
+            // 普通属性值
+            data:{
+                num:6,
+                num2:1,
+                num3:0
+            },
+            // 计算属性值
+            computed:{
+                // name:Function
+                // 1、计算属性所对应的function 不能使用 => 函数 
+                //     使用=> 函数 不能保证 计算属性函数中的this是当前的 Vue 实例
+                // 2、计算属性的函数一定要有返回值
+                result:function(){  //get 方法
+                    // 增加一些其他的判断获取逻辑流程
+                    console.log("计算属性：",Math.random());
+                    return this.num > 10;
+                },
+                // getter  缺少  setter
+                //  get set 方法  用于表示对一个参数的取值和赋值的两种操作
+                // addNum:function(){
+                //     return parseInt(this.num2)*2;
+                // }
+                addNum:{
+                    get:function(){
+                        return parseInt(this.num2)*2;
+                    },
+                    // set 必须和 依赖属性进行关联
+                    // set 和自己进行关联 会造成死循环
+                    set:function(value){
+                        // console.log(value);
+                        // this.addNum = parseInt(value)/2;
+                        this.num2 = parseInt(value)/2;
+                    }
+                }
+            },
+            methods:{
+                setNum2(){
+                   this.num2 = this.num3/2;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

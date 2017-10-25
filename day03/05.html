@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>模板的加载</title>
+</head>
+<body>
+    <!-- 组件  Root -->
+    <div id="app">
+        <!-- vue 组件 -->
+        <hello></hello>
+    </div>
+    <!-- 
+        在Vue 的容器之外 使用 vue 的内置全局组件 
+        进行模板的定义
+    -->
+    <template id="wbs">
+        <!-- 
+            vue 2.x  有且仅有一个根元素
+        -->
+        <div>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+            </ul>
+        </div>
+    </template>
+    <script>
+        // 定义全局
+        Vue.component("hello",{
+            template:"#wbs", //可以传入css 选择器
+        });
+
+        new Vue({
+            el:"#app",
+        });
+    </script>
+</body>
+</html>
