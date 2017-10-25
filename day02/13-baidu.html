@@ -28,8 +28,10 @@
                             dataType:"jsonp",
                             jsonp:"cb",
                             success:(data)=>{
-                                console.log(data);
+                                // console.log(data);
                                 this.arr = data.s;
+                                // this.arr.length = 0;
+                                // this.arr = this.arr.concat(data.s);
                             }
                         })
                     }
@@ -45,7 +47,6 @@
             <transition-group enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutRight">
                 <li v-for="(item,i) in arr" :key="i">{{item}}</li>
             </transition-group>
-           
         </ul>
     </div>
 </body>
