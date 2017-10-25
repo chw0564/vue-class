@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>组件的生命钩子函数</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="msg">
+        <p>{{msg}}</p>
+        <itany></itany>
+        <itany></itany>
+        <itany></itany>
+        <itany></itany>
+    </div>
+    <template id="itany">
+        <div>
+            <input type="text" v-model="msg">
+            <p>{{msg}}</p>
+        </div>
+    </template>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"消息"
+            },
+            components:{
+                itany:{
+                    template:"#itany",
+                    data:function(){
+                        return {
+                            msg:"子组件消息"
+                        }
+                    },
+                    mounted(){
+                        console.log("子组件挂载组件");
+                    },
+                    updated(){
+                        console.log("子组件更新数据");
+                    }
+                }
+            },
+            mounted(){
+                console.log("挂载组件");
+            },
+            updated(){
+                console.log("更新数据");
+            }
+        });
+    </script>
+</body>
+</html>

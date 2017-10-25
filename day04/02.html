@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>动态组件</title>
+</head>
+<body>
+    <div id="app">
+        <input type="button" :value="title" @click="changePage()">
+        <!-- <login></login> -->
+        <!--
+            在组件上定义 的样式 或属性，会直接传递到 该组件的根元素
+        -->
+        <!-- <regist style="display:none"></regist> -->
+
+        <!-- 
+            根据用户的需求 选择性的渲染相关组件
+             占位符
+            v-bind:is  ==> 用于指定组件
+                     = 实例的变量
+            每次切换时。都会重新渲染组件
+            默认组件不缓存,一旦切换原组件直接销毁，每次显示时都会重新创建组件
+            在Vue中如何让动态组件不被销毁
+         -->
+        <component :is="page"></component>
+    </div>
+
+    <!-- 
+        Vue 1.x template 没有特别要求
+        Vue 2.x template 有且仅有一个根元素
+     -->
+    <template id="login">
+        <div>
+            <h1>登录</h1>
+            <label for="name">登录名：</label>
+            <input type="text" name="" id="name">
+            <br>
+            <label for="pwd">密码</label>
+            <input type="password" name="" id="pwd">
+            <br>
+            <input type="button" value="登录">
+        </div>
+    </template>
+
+    <template id="regist">
+        <div id="aa">
+            <h1>注册</h1>
+            <label for="name">登录名：</label>
+            <input type="text" name="" id="name">
+            <br>
+            <label for="pwd">密码</label>
+            <input type="password" name="" id="pwd">
+            <br>
+            <input type="button" value="注册">
+        </div>
+    </template>
+    <script>
+        Vue.component("login",{
+            template:"#login",
+            mounted(){
+                console.log("重现创建登录组件");
+            }
+
+        });
+        Vue.component("regist",{
+            template:"#regist",
+            mounted(){
+                console.log("重现创建注册组件");
+            }
+        });
+
+
+        new Vue({
+            el:"#app",
+            data:{
+                page:"login",
+                title:"去注册"
+            },
+            methods:{
+                changePage(){
+                    this.page = this.page=="login"?"regist":"login";
+                    this.title = this.page=="login"?"去注册":"去登录"
+                }
+            }
+        });
+    
+    </script>
+</body>
+</html>

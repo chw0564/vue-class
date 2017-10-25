@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../js/vue.js"></script>
+    <title>组件中的 数据 </title>
+</head>
+<body>
+    <div id="app">
+        <hello></hello>
+        <hello></hello>
+    </div>
+
+    <template id="wbs">
+        <div>
+            <ul>
+                <li v-for="item in arr">{{item}}</li>
+            </ul>
+            <input type="button" value="改变数组" @click="changeArr()">
+        </div>
+    </template>
+    <script>
+        // temp 引用类型
+        // let temp = {name:"tom"};
+        // function getTemp(){
+        //     return temp;  // 返回的是 栈中的地址
+        // }
+
+        // function getNewTemp(){
+        //     let temp = {name:"tom"};  // 每次调用方法 地址都会发生变化
+        //     return temp;
+        // }
+
+        // console.log("-------")
+        // let t = getTemp();  // 栈中地址  t 和 temp  指向的是同一个地址
+        // console.log(t);
+        // t.age = 23;   // 一旦对地址所指向的 堆栈的值 进行修改时  ==> 会导致所有指向该地址的变量都发生变换
+        // let m = getTemp();
+        // console.log(m);
+
+        
+
+
+
+
+        let obj = {
+                    arr:["a","b","c"]
+                 };
+        // 定义全局
+        Vue.component("hello",{
+            template:"#wbs",
+            data:function(){
+                console.log(Math.random());
+                let temp = {
+                    arr:["a","b","c"]
+                };
+                return temp;
+            },
+            methods:{
+                changeArr(){
+                    this.arr = ["aa","bb","cc"];
+                }
+            }
+        });
+
+        new Vue({
+            el:"#app",
+            data:{
+                arr:["a","b","c"]
+            }
+        });
+    </script>
+</body>
+</html>
