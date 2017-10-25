@@ -5,67 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../js/vue.js"></script>
-    <title>单向数据流</title>
-    <!-- 
-        当父组件的属性变化时，将传导给子组件，但是反过来不会。
-        这是为了防止子组件无意间修改了父组件的状态
-     -->
+    <title>子组件向父组件传递参数</title>
 </head>
 <body>
     <div id="app">
-        <h1>父组件取值</h1>
-        <p>msg:{{msg}}</p>
-        <input type="text" v-model="msg">
+        <!-- 
+            事件能不能绑定？
+            绑定的不是原生 DOM 的事件
+                w3c 对特定的 标签 定义并提供接口事件
+
+            自定义子组件上的 vue 事件 需要指定明确的触发时机
+
+            1、在子组件标签上以自定义事件名称的方式  绑定 父组件的 方法 
+                    注意：因为参数不定 方法不能带括号
+            2、在子组件中可以通过 特定时机 使用 vm.$emit() 触发自定义方法
+        -->
+        <itany :msg="msg" @aa="setInfo"></itany>
         <hr>
         <!-- 
-            父组件向子组件的传值方式
-            1、依赖于指令 v-bind:自定义属性名   ==> 用在子组件标签上
-            2、组件中的属性  props  ==>  定义在子组件实例中
-
-            vue 的官方不建议使用
-                ==>  vue 2.x 概念 ： 单向数据操作
-                ==>     父组件和子组件之间完成数据独立
-                ==>     子组件数据操作 不应该影响父组件的原始数据
-                ==>     因为子组件存在部分数据是由父组件提供，这些数据应该由父组件维护
-            在标签上是不能绑定对象的
-            
-            实际开发过程中经常使用
-
-            1、vue 是将绑定对象的地址 传递给了 子组件
-            2、通过地址 获取对应的参数
-            ？ 子组件从父组件获取的对象 和父组件 中定义的对象是否是同一个
-
-            破坏单向数据流
-            vue 1.x  v-bind  存在修饰符  .sync
-            vue 2.0  .sync 被删除
-            Vue 2.3~2.x  .sync 又被添加了
-                         改变了使用方式，需要定义一个 
-                         子组件向父组件传值的事件触发才可以调用
-        -->
-        <itany v-bind:info="msg" :msgs="msgs"></itany>
+            移动端 点击事件是  tap
+         -->
+        <h1>父组件数据</h1>
+        <p>msg:{{msg}}</p>
+        <p>info:{{info}}</p>
     </div>
 
     <template id="itany">
         <div>
-            <h1>子组件取值</h1>
-            <p>msg:{{info}}</p>
-            <input type="text" v-model="info">
-            <hr>
+            <h1>子组件数据</h1>
             <p>msg:{{msg}}</p>
-            <input type="text" v-model="msg">
-            <hr>
-            <p>msg2:{{msgs.msg2}}</p>
-            <input type="text" v-model="msgs.msg2">
+            <p>info:{{info}}</p>
+            <input type="button" value="发送数据" @click="sendInfo()">
+            <input type="text" v-model="info">
         </div>
     </template>
 
     <script>
+        function show(){
+            alert(1);
+        }
         new Vue({
             el:"#app",
             data:{
-                msg:"父组件定义的数据",
-                msgs:{
-                    msg2:"消息"
+                msg:"父组件的消息",
+                info:"",
+                aaa:1
+            },
+            methods:{
+                setInfo(data){
+                    // alert(data+":"+a);
+                    this.info = data;
+                    // alert(1);
                 }
             },
             components:{
@@ -73,18 +63,34 @@
                     template:"#itany",
                     data:function(){
                         return {
-                            msg:this.info
+                            info:"子组件消息",
+                            test:"sss"
                         }
                     },
-                    computed:{
-                        
-                    },
-                    // 用于 从父组件中 获取传递的参数
                     props:{
-                        info:"",  // 获取的是初始值，会被子组件进行单独维护
-                        msgs:{}
+                        msg:""
+                    },
+                    methods:{
+                        sendInfo(){
+                            // alert(1);
+                            // 触发 自定义的 vue 事件
+                            // 发送==> 用于触发自定义事件的
+                            // this.$emit(name,args...);
+                            //    name 自定义的事件名
+                            //    args...   不定长数组  可以传递任意个数的参数
+                            this.$emit("aa",this.info,"sss");
+                        }
+                    },
+                    watch:{
+                        info:function(newValue,oldValue){
+                            // console.log(1);
+                            this.$emit("aa",newValue);
+                        }
+                    },
+                    mounted(){
+                        this.$emit("aa",this.info);
                     }
-                },
+                }
             }
         });
     </script>
