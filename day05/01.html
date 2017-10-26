@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .active{
+            color: red;
+        }
+    </style>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router.js"></script>
+    <title>简单vue 路由</title>
+</head>
+<body>
+    <!-- Root -->
+    <div id="app">
+        <!-- 4、定义页面的 路由连接 和 路由占位符 -->
+        <!-- 
+            router-link
+                to  定义跳转的路由路径
+                tag 定义渲染时使用的 HTML 的元素，默认渲染为 <a>
+                event  定义路由的触发事件，默认是 click
+
+         -->
+        <router-link tag="button" event="mousemove" to="/">首页</router-link>
+        <router-link tag="button" event="mousemove" to="/news">新闻</router-link>
+        <hr>
+        <router-view></router-view>
+    </div>
+
+    <template id="home">
+        <div class="home">
+            <h1>首页</h1>
+
+        </div>
+    </template>
+
+    <template id="news">
+        <div class="news">
+            <h1>新闻</h1>
+            <router-link to="/news/hotNews">热点新闻</router-link>
+            <router-link to="/nowNews">今天新闻</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+
+    <script>
+        // 1、定义组件的 - 配置
+        const Home = {
+            name:"Home",
+            template:"#home"
+        };
+        const News = {
+            name:"News",
+            template:"#news"
+        };
+        const HotNews = {
+            name:"HotNews",
+            template:"<h2>热点新闻</h2>"
+        };
+        const NowNews = {
+            name:"NowNews",
+            template:"<h2>今日新闻</h2>"
+        };
+        // 2.1、定义路由路径和组件的 关联 配置
+        const routes = [
+            {path:"/",component:Home},
+            {
+                path:"/news",
+                component:News,
+                children:[
+                    // 通过是否定义 / 来决定 自路径组件 以 层级访问 还是 根路径访问
+                    {path:"hotNews",component:HotNews},
+                    {path:"/nowNews",component:NowNews}
+                ]
+            },
+        ];
+        // 2.2、创建VueRouter 的实例 用于实例化 组件和 路径的关系
+        const router = new VueRouter({
+            routes,
+            // 用于定义 路由状态的 css 样式名称
+            linkActiveClass:"active"
+        });
+
+        // 3、注入 （注册）  vueRouter 对象
+        new Vue({
+            el:"#app",
+            // router:vueRouter
+            router,
+            components:{
+
+            }
+        });
+    </script>
+</body>
+</html>
